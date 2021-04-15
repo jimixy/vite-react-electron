@@ -1,0 +1,77 @@
+{
+  "name": "vite-react-electron",
+  "version": "0.0.1",
+  "main": "dist/main/build.js",
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently -n react,ele -c=green,blue \"npm run dev:react\" \"npm run dev:ele\"",
+    "dev:react": "vite",
+    "dev:ele": "node script/build --env=development --watch",
+    "build:react": "vite build",
+    "build:ele": "node script/build --env=production",
+    "build": "tsc && vite build && npm run build:react && npm run build:ele && electron-builder",
+    "serve": "vite preview"
+  },
+  "build": {
+    "appId": "jimixy@gmail.com",
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "files": [
+      "!node_modules",
+      "dist/main/**",
+      "dist/render/**"
+    ],
+    "mac": {
+      "artifactName": "${productName}_setup_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_setup_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-store": "^7.0.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@vitejs/plugin-react-refresh": "^1.3.1",
+    "chalk": "^4.1.0",
+    "concurrently": "^6.0.0",
+    "dotenv": "^8.2.0",
+    "electron": "^11.3.0",
+    "electron-builder": "^22.10.5",
+    "electron-connect": "^0.6.3",
+    "minimist": "^1.2.5",
+    "ora": "^5.3.0",
+    "rollup": "^2.41.4",
+    "rollup-plugin-esbuild": "^3.0.2",
+    "typescript": "^4.1.2",
+    "vite": "^2.0.0",
+    "wait-on": "^5.2.1"
+  }
+}
